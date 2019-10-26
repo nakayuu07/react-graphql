@@ -4,6 +4,8 @@ import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
 import Form from './atoms/Form'
+import RepositoryItems from './organisms/RepositoryItems'
+
 
 const PER_PAGE = 5
 const initialState = {
@@ -13,8 +15,6 @@ const initialState = {
   before: null,
   query: ""
 }
-
-const StarButton = ({node}) => <span role="img" aria-label="star">🌟{node.stargazers.totalCount}</span>
 
 class App extends Component {
   constructor(props){
@@ -56,18 +56,9 @@ class App extends Component {
               if (error) return `Error ${error.message}`
               return(
                 <>
-                  <h2>find {data.search.repositoryCount} - Repositories</h2>
-                  <ul>
-                    {data.search.edges.map((edge => {
-                      return(
-                        <li key={edge.node.id}>
-                          <a href={edge.node.url} target='blank' rel=''> {edge.node.name} </a>
-                          &nbsp;
-                          <StarButton node={edge.node} />
-                        </li>
-                      )
-                    }))}
-                  </ul>
+                  <RepositoryItems
+                    data={data} 
+                  />
                   { 
                     data.search.pageInfo.hasPreviousPage ?
                     (
