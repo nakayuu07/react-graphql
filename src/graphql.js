@@ -24,6 +24,7 @@ export const SEARCH_REPOSITORIES = gql`
           ...on Repository {
             id
             url
+            name
             stargazers {
               totalCount
             }
