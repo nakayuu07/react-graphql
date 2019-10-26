@@ -3,6 +3,7 @@ import client from './client'
 import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
+import Form from './atoms/Form'
 
 const PER_PAGE = 5
 const initialState = {
@@ -41,9 +42,10 @@ class App extends Component {
     const { first, after, last, before, query } = this.state
     return (
       <ApolloProvider client={client}>
-        <form>
-          <input value={query} onChange={this.handleChange}/>
-        </form>
+        <Form 
+          query={query}
+          onchange={this.handleChange}
+        />
         <Query 
           query={SEARCH_REPOSITORIES}
           variables={{ first, after, last, before, query }}
