@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
 import Form from './atoms/Form'
+import Button from './atoms/Button'
 import RepositoryItems from './organisms/RepositoryItems'
 
 
@@ -58,20 +59,19 @@ class App extends Component {
                 <>
                   <RepositoryItems data={data} />
                   { 
-                    data.search.pageInfo.hasPreviousPage ?
-                    (
-                      <button onClick={() => this.goPrevious(data.search)}>
-                        previous
-                      </button>
-                    ) : null
+                    data.search.pageInfo.hasNextPage ? 
+                    <Button 
+                      text={'next'} 
+                      data={data}
+                      onClick={this.goNext}
+                    /> : null 
                   }
-                  {
-                    data.search.pageInfo.hasNextPage ?
-                    (
-                     <button onClick={() => this.goNext(data.search)}>
-                        next
-                     </button>
-                    ) : null
+                  { data.search.pageInfo.hasPreviousPage ? 
+                    <Button 
+                      text={'previous'} 
+                      data={data} 
+                      onClick={this.goPrevious}
+                    /> : null 
                   }
                 </>
               )
