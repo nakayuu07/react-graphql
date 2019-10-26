@@ -3,8 +3,7 @@ import client from './client'
 import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
-import Form from './atoms/Form'
-import Button from './atoms/Button'
+import { Form, Button }from './atoms'
 import RepositoryItems from './organisms/RepositoryItems'
 
 
