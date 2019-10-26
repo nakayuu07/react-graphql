@@ -3,10 +3,10 @@ import client from './client'
 import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
-import { nodeInternals } from 'stack-utils';
 
-const DEFAULT_STATE = {
-  first: 5,
+const PER_PAGE = 5
+const initialState = {
+  first: PER_PAGE,
   after: null,
   last: null,
   before: null,
@@ -16,14 +16,12 @@ const DEFAULT_STATE = {
 class App extends Component {
   constructor(props){
     super(props)
-    this.state = DEFAULT_STATE
+    this.state = initialState
   }
 
-  handleChange = e => {
-    this.setState({ 
-      query: e.target.value 
-    })
-  }
+  handleChange = e => this.setState({ query: e.target.value })
+  
+  goNext = search => this.setState({ after: search.pageInfo.endCursor })
 
   render(){
     const { first, after, last, before, query } = this.state
@@ -47,11 +45,19 @@ class App extends Component {
                     {data.search.edges.map((edge => {
                       return(
                         <li key={edge.node.id}>
-                          <a href={edge.node.url} target='blank'> {edge.node.name} </a>
+                          <a href={edge.node.url} target='blank' rel=''> {edge.node.name} </a>
                         </li>
                       )
                     }))}
                   </ul>
+                  {
+                    data.search.pageInfo.hasNextPage ?
+                    (
+                     <button onClick={() => this.goNext(data.search)}>
+                        next
+                     </button>
+                    ) : null
+                  }
                 </>
               )
             }
