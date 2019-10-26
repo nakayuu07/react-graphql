@@ -3,6 +3,7 @@ import client from './client'
 import { ApolloProvider } from 'react-apollo'
 import { Query } from 'react-apollo'
 import { SEARCH_REPOSITORIES } from './graphql'
+import { nodeInternals } from 'stack-utils';
 
 const DEFAULT_STATE = {
   first: 5,
@@ -39,8 +40,20 @@ class App extends Component {
             ({loading, error, data}) => {
               if (loading) return '...loading'
               if (error) return `Error ${error.message}`
-
-              return<h2>find {data.search.repositoryCount} - Repositories</h2>
+              return(
+                <>
+                  <h2>find {data.search.repositoryCount} - Repositories</h2>
+                  <ul>
+                    {data.search.edges.map((edge => {
+                      return(
+                        <li key={edge.node.id}>
+                          <a href={edge.node.url} target='blank'> {edge.node.name} </a>
+                        </li>
+                      )
+                    }))}
+                  </ul>
+                </>
+              )
             }
           }
         </Query>
