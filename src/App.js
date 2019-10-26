@@ -10,7 +10,7 @@ const initialState = {
   after: null,
   last: null,
   before: null,
-  query: "フロントエンドエンジニア"
+  query: ""
 }
 
 class App extends Component {
@@ -21,7 +21,19 @@ class App extends Component {
 
   handleChange = e => this.setState({ query: e.target.value })
   
-  goNext = search => this.setState({ after: search.pageInfo.endCursor })
+  goNext = search => this.setState({ 
+    first: PER_PAGE,
+    after: search.pageInfo.endCursor,
+    last: null,
+    before: null 
+  })
+
+  goPrevious = search => this.setState({ 
+    first: null,
+    after: null,
+    last: PER_PAGE,
+    before: search.pageInfo.startCursor
+   })
 
   render(){
     const { first, after, last, before, query } = this.state
@@ -50,6 +62,14 @@ class App extends Component {
                       )
                     }))}
                   </ul>
+                  { 
+                    data.search.pageInfo.hasPreviousPage ?
+                    (
+                      <button onClick={() => this.goPrevious(data.search)}>
+                        previous
+                      </button>
+                    ) : null
+                  }
                   {
                     data.search.pageInfo.hasNextPage ?
                     (
