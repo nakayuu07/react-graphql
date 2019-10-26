@@ -56,7 +56,7 @@ class App extends Component {
               if (error) return `Error ${error.message}`
               return(
                 <>
-                  <RepositoryItems data={data} />
+                  < RepositoryItems data={data} />
                   { 
                     data.search.pageInfo.hasNextPage ? 
                     <Button 
