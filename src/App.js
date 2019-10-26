@@ -13,6 +13,8 @@ const initialState = {
   query: ""
 }
 
+const StarButton = ({node}) => <span role="img" aria-label="star">🌟{node.stargazers.totalCount}</span>
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -58,6 +60,8 @@ class App extends Component {
                       return(
                         <li key={edge.node.id}>
                           <a href={edge.node.url} target='blank' rel=''> {edge.node.name} </a>
+                          &nbsp;
+                          <StarButton node={edge.node} />
                         </li>
                       )
                     }))}
