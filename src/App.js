@@ -39,7 +39,8 @@ class App extends Component {
             ({loading, error, data}) => {
               if (loading) return '...loading'
               if (error) return `Error ${error.message}`
-              return<div></div>
+
+              return<h2>find {data.search.repositoryCount} - Repositories</h2>
             }
           }
         </Query>
